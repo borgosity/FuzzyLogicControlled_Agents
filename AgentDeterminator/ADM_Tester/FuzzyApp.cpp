@@ -21,7 +21,9 @@ bool FuzzyApp::startup()
 	//scene controller
 	m_sceneController = new SceneController();
 	// agents
-	m_playerAgent = new PlayerAgent("Hero", glm::vec3(400.0f, 400.0f, 0.0f));
+	m_playerAgent = new PlayerAgent("Hero", glm::vec3(400.0f, 400.0f, 0.0f),
+		PLAYER_HEALTH, PLAYER_SIZE, PLAYER_MINDISTANCE,
+		PLAYER_MAXSPEED, PLAYER_MAXACCEL, PLAYER_LIVELYNESS, PLAYER_SIGHT);
 	m_buddyAgent = new CompanionAgent("Buddy", glm::vec3(400.0f, 500.0f, 0.0f));
 	m_enemyAgent = new EnemyAgent("Enemy", glm::vec3(500.0f, 400.0f, 0.0f));
 	// add egents to scene controller
@@ -121,8 +123,11 @@ void FuzzyApp::drawAction(Agent & a_agent)
 	default:
 		break;
 	}
-
-	drawRadius(a_agent);
+	// don't draw radius if dead
+	if (!a_agent.vitals.dead)
+	{
+		drawRadius(a_agent);
+	}
 }
 
 void FuzzyApp::drawWander(Agent & a_agent, WanderAction & a_wander)

@@ -96,6 +96,10 @@ class PlayerAgent : public Agent {
 public:
 	PlayerAgent();
 	PlayerAgent(std::string a_name, glm::vec3 a_position);
+	PlayerAgent(std::string a_name, glm::vec3 a_position, 
+		float a_health, float a_size, float a_minDistance, 
+		float a_maxSpeed, float a_maxAccel, float a_liveliness, float a_sight);
+
 	virtual ~PlayerAgent();
 
 	virtual void update(float a_dt);
@@ -122,6 +126,9 @@ class EnemyAgent : public Agent {
 public:
 	EnemyAgent();
 	EnemyAgent(std::string a_name, glm::vec3 a_position);
+	EnemyAgent(std::string a_name, glm::vec3 a_position,
+		float a_health, float a_size, float a_minDistance,
+		float a_maxSpeed, float a_maxAccel, float a_sight);
 	virtual ~EnemyAgent();
 
 	virtual void update(float a_dt);
@@ -147,6 +154,9 @@ class CompanionAgent : public Agent {
 public:
 	CompanionAgent();
 	CompanionAgent(std::string a_name, glm::vec3 a_position);
+	CompanionAgent(std::string a_name, glm::vec3 a_position,
+		float a_health, float a_size, float a_minDistance,
+		float a_maxSpeed, float a_maxAccel, float a_sight);
 	virtual ~CompanionAgent();
 
 	virtual void update(float a_dt);

@@ -212,6 +212,51 @@ PlayerAgent::PlayerAgent(std::string a_name, glm::vec3 a_position)
 	m_bShowAttackSets = false;
 }
 
+PlayerAgent::PlayerAgent(std::string a_name, glm::vec3 a_position, 
+	float a_health, float a_size, float a_minDistance, 
+	float a_maxSpeed, float a_maxAccel, float a_liveliness, float a_sight)
+{
+	m_name = a_name;
+	m_position = a_position;
+	m_colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	// setup vitals
+	vitals.health = a_health;
+	vitals.size = a_size;
+	vitals.mass = vitals.size * 0.5f;
+	vitals.speed = 100 / vitals.mass;
+	vitals.strength = (vitals.mass * vitals.size * vitals.speed) / 100;
+	vitals.minDistance = a_minDistance;
+	vitals.foeDistance = 0.0f;
+	vitals.friendDistance = 0.0f;
+	vitals.type = PLAYER;
+	vitals.dead = false;
+	// movement
+	movedata.position = a_position;
+	movedata.acceleration = glm::vec3(0.0f);
+	movedata.maxAcceleration = a_maxAccel;
+	movedata.velocity = glm::vec3(0.0f);
+	movedata.maxSpeed = a_maxSpeed;
+	movedata.maxForce = 0.1f;
+	movedata.rotation = 0.0f;
+	movedata.rotationDampening = 0.05f;
+	movedata.livelyness = a_liveliness;
+	movedata.sight = a_sight;
+	movedata.sensor += (movedata.position + movedata.sight);
+	// brain
+	m_brain = new PlayerBrain(this);
+	// actions
+	m_wanderAction = new WanderAction(20.0f, 0.25f, 150.0f);
+	m_attackAction = new AttackAction();
+	m_evadeAction = new EvadeAction();
+	actions.push_back(m_wanderAction);
+	actions.push_back(m_evadeAction);
+	actions.push_back(m_attackAction);
+	// gui controls
+	m_bShowWanderSets = false;
+	m_bShowEvadeSets = false;
+	m_bShowAttackSets = false;
+}
+
 PlayerAgent::~PlayerAgent()
 {
 	delete m_brain;
@@ -219,6 +264,7 @@ PlayerAgent::~PlayerAgent()
 	delete m_evadeAction;
 	delete m_attackAction;
 }
+
 /// Update Player Agent
 void PlayerAgent::update(float a_dt)
 {
@@ -348,6 +394,48 @@ EnemyAgent::EnemyAgent(std::string a_name, glm::vec3 a_position)
 	movedata.rotation = 0.0f;
 	movedata.rotationDampening = 0.05f;
 	movedata.sight = 80.0f;
+	movedata.sensor += (movedata.position + movedata.sight);
+	// brain
+	m_brain = new EnemyBrain(this);
+	// actions
+	m_seekAction = new SeekAction();
+	m_fleeAction = new FleeAction();
+	m_attackAction = new AttackAction();
+	actions.push_back(m_seekAction);
+	actions.push_back(m_attackAction);
+	actions.push_back(m_fleeAction);
+	//
+	m_allDead = false;
+}
+
+EnemyAgent::EnemyAgent(std::string a_name, glm::vec3 a_position, 
+	float a_health, float a_size, float a_minDistance, 
+	float a_maxSpeed, float a_maxAccel, float a_sight)
+{
+	m_name = a_name;
+	m_position = a_position;
+	m_colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	// setup vitals
+	vitals.health = a_health;
+	vitals.size = a_size;
+	vitals.mass = vitals.size * 0.5f;
+	vitals.speed = 100 / vitals.mass;
+	vitals.strength = (vitals.mass * vitals.size * vitals.speed) / 100;
+	vitals.minDistance = a_minDistance;
+	vitals.foeDistance = 0.0f;
+	vitals.friendDistance = 0.0f;
+	vitals.type = ENEMY;
+	vitals.dead = false;
+	// movement
+	movedata.position = a_position;
+	movedata.velocity = glm::vec3(0.0f);
+	movedata.acceleration = glm::vec3(0.0f);
+	movedata.maxSpeed = a_maxSpeed;
+	movedata.maxForce = 0.1f;
+	movedata.maxAcceleration = a_maxAccel;
+	movedata.rotation = 0.0f;
+	movedata.rotationDampening = 0.05f;
+	movedata.sight = a_sight;
 	movedata.sensor += (movedata.position + movedata.sight);
 	// brain
 	m_brain = new EnemyBrain(this);
@@ -530,6 +618,49 @@ CompanionAgent::CompanionAgent(std::string a_name, glm::vec3 a_position)
 	movedata.rotation = 0.0f;
 	movedata.rotationDampening = 0.05f;
 	movedata.sight = 50.0f;
+	movedata.sensor += (movedata.position + movedata.sight);
+	// brain
+	m_brain = new CompanionBrain(this);
+	// actions
+	m_followAction = new FollowAction();
+	m_evadeAction = new EvadeAction();
+	m_attackAction = new AttackAction();
+	actions.push_back(m_followAction);
+	actions.push_back(m_evadeAction);
+	actions.push_back(m_attackAction);
+}
+
+CompanionAgent::CompanionAgent(std::string a_name, glm::vec3 a_position, 
+	float a_health, float a_size, float a_minDistance, 
+	float a_maxSpeed, float a_maxAccel, float a_sight)
+{
+	m_name = a_name;
+	m_position = a_position;
+	movedata.position = a_position;
+	m_colour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	// setup vitals
+	vitals.health = a_health;
+	vitals.size = a_size;
+	vitals.mass = vitals.size * 0.5f;
+	vitals.speed = 100 / vitals.mass;
+	vitals.strength = (vitals.mass * vitals.size * vitals.speed) / 100;
+	vitals.minDistance = a_minDistance;
+	vitals.foeDistance = 0.0f;
+	vitals.friendDistance = 0.0f;
+	vitals.type = COMPANION;
+	vitals.dead = false;
+	// movement
+	movedata.position = a_position;
+	movedata.velocity.x = 0.0f;
+	movedata.velocity.y = 0.0f;
+	movedata.acceleration.x = 0.0f;
+	movedata.acceleration.y = 0.0f;
+	movedata.maxSpeed = a_maxSpeed;
+	movedata.maxForce = 0.1f;
+	movedata.maxAcceleration = a_maxAccel;
+	movedata.rotation = 0.0f;
+	movedata.rotationDampening = 0.05f;
+	movedata.sight = a_sight;
 	movedata.sensor += (movedata.position + movedata.sight);
 	// brain
 	m_brain = new CompanionBrain(this);
