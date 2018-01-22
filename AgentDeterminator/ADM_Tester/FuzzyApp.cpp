@@ -17,15 +17,25 @@ bool FuzzyApp::startup()
 {
 	// renderer
 	m_renderer = new aie::Renderer2D();
-	m_font = new aie::Font("./font/consolas.ttf", 32);
+	
+	FILE* file = nullptr;
+	std::cout <<  fopen_s(&file, "Consolas.ttf", "rb") << std::endl;
+	
+	m_font = new aie::Font("font/Consolas.ttf", 32);
+
+
 	//scene controller
 	m_sceneController = new SceneController();
 	// agents
 	m_playerAgent = new PlayerAgent("Hero", glm::vec3(400.0f, 400.0f, 0.0f),
 		PLAYER_HEALTH, PLAYER_SIZE, PLAYER_MINDISTANCE,
 		PLAYER_MAXSPEED, PLAYER_MAXACCEL, PLAYER_LIVELYNESS, PLAYER_SIGHT);
-	m_buddyAgent = new CompanionAgent("Buddy", glm::vec3(400.0f, 500.0f, 0.0f));
-	m_enemyAgent = new EnemyAgent("Enemy", glm::vec3(500.0f, 400.0f, 0.0f));
+	m_buddyAgent = new CompanionAgent("Buddy", glm::vec3(400.0f, 500.0f, 0.0f),
+		BUDDY_HEALTH, BUDDY_SIZE, BUDDY_MINDISTANCE,
+		BUDDY_MAXSPEED, BUDDY_MAXACCEL, BUDDY_SIGHT);
+	m_enemyAgent = new EnemyAgent("Enemy", glm::vec3(500.0f, 400.0f, 0.0f),
+		ENEMY_HEALTH, ENEMY_SIZE, ENEMY_MINDISTANCE,
+		ENEMY_MAXSPEED, ENEMY_MAXACCEL, ENEMY_SIGHT);
 	// add egents to scene controller
 	m_sceneController->addAgent(m_buddyAgent);
 	m_sceneController->addAgent(m_enemyAgent);
@@ -33,6 +43,7 @@ bool FuzzyApp::startup()
 	// initialise agent behaviours
 	m_buddyAgent->buddyAgent(m_playerAgent);
 	m_enemyAgent->findTarget();
+
 	return true;
 }
 
@@ -76,7 +87,7 @@ void FuzzyApp::draw()
 
 	// output some text
 	m_renderer->drawText(m_font, "Press ESC to quit", 20, 20);
-
+	
 	// done drawing sprites
 	m_renderer->end();
 }
