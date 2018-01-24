@@ -27,6 +27,7 @@ enum AgentType
 * Agent Statistics Struct
 *******************************************************************************************************************************/
 struct AgentStats {
+	int id = 0;
 	float health = 0.0f;
 	float strength = 0.0f;
 	float speed = 0.0f;
@@ -128,7 +129,8 @@ public:
 	EnemyAgent(std::string a_name, glm::vec3 a_position);
 	EnemyAgent(std::string a_name, glm::vec3 a_position,
 		float a_health, float a_size, float a_minDistance,
-		float a_maxSpeed, float a_maxAccel, float a_sight);
+		float a_maxSpeed, float a_maxAccel, float a_sight,
+		int a_id);
 	virtual ~EnemyAgent();
 
 	virtual void update(float a_dt);

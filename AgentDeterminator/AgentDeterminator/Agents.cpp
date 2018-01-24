@@ -410,7 +410,8 @@ EnemyAgent::EnemyAgent(std::string a_name, glm::vec3 a_position)
 
 EnemyAgent::EnemyAgent(std::string a_name, glm::vec3 a_position, 
 	float a_health, float a_size, float a_minDistance, 
-	float a_maxSpeed, float a_maxAccel, float a_sight)
+	float a_maxSpeed, float a_maxAccel, float a_sight,
+	int a_id)
 {
 	m_name = a_name;
 	m_position = a_position;
@@ -426,6 +427,7 @@ EnemyAgent::EnemyAgent(std::string a_name, glm::vec3 a_position,
 	vitals.friendDistance = 0.0f;
 	vitals.type = ENEMY;
 	vitals.dead = false;
+	vitals.id = a_id;
 	// movement
 	movedata.position = a_position;
 	movedata.velocity = glm::vec3(0.0f);
@@ -468,14 +470,17 @@ void EnemyAgent::update(float a_dt)
 		movedata.velocity = glm::vec3(0.0f);
 		return;
 	}
+	// find closest target
 	findTarget();
+	// get distance
 	vitals.foeDistance = m_pEnemyAgent ? glm::distance(movedata.position, m_pEnemyAgent->movedata.position) : 1000.0f;
 
 	// ------------------ decide what to do -------------------------------------------------------------------
 	m_brain->update(a_dt);
+	vitals.action = m_brain->saysDoThis();
 
 	// ----------------------------------- do appropriate action ----------------------------------------------
-	switch (m_brain->saysDoThis())
+	switch (vitals.action)
 	{
 	case AN_FLEE:
 		if (m_fleeAction->targetAgent() != nullptr) {
@@ -583,7 +588,7 @@ CompanionAgent::CompanionAgent()
 	m_name = "Companion Agent";
 	m_position = glm::vec3(10.0f, 10.0f, 0.0f);
 	movedata.position = m_position;
-	m_colour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	m_colour = glm::vec4(0.0f, 0.5f, 0.5f, 1.0f);
 	vitals.type = COMPANION;
 }
 ///
@@ -593,8 +598,7 @@ CompanionAgent::CompanionAgent(std::string a_name, glm::vec3 a_position)
 {
 	m_name = a_name;
 	m_position = a_position;
-	movedata.position = a_position;
-	m_colour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	m_colour = glm::vec4(0.0f, 0.5f, 0.5f, 1.0f);
 	// setup vitals
 	vitals.health = 100;
 	vitals.size = 20;
@@ -636,8 +640,7 @@ CompanionAgent::CompanionAgent(std::string a_name, glm::vec3 a_position,
 {
 	m_name = a_name;
 	m_position = a_position;
-	movedata.position = a_position;
-	m_colour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	m_colour = glm::vec4(0.0f, 0.5f, 0.5f, 1.0f);
 	// setup vitals
 	vitals.health = a_health;
 	vitals.size = a_size;

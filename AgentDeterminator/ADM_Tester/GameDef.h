@@ -31,6 +31,9 @@ const float BUDDY_MAXSPEED = 2.0f;
 const float BUDDY_MAXACCEL = 4.0f;
 const float BUDDY_SIGHT = 50.0f;
 
+// enemies
+const int ENEMY_COUNT = 10;
+
 // enemy vitals
 const float ENEMY_HEALTH = 100;
 const float ENEMY_SIZE = 20;

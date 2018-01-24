@@ -114,6 +114,9 @@
     <ClInclude Include="FuzzyStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArriveAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Decisions.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="PlayerWander.cpp">
       <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="ArriveAction.cpp">
+      <Filter>Source Files\actions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

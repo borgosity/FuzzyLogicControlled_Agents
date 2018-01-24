@@ -81,6 +81,7 @@ private:
 	EnemySeek	* m_seekBehaviour = nullptr;
 	EnemyFlee	* m_fleeBehaviour = nullptr;
 	EnemyAttack	* m_attackBehaviour = nullptr;
+	
 };
 /*******************************************************************************
 * Companion Decisions Class

@@ -9,7 +9,8 @@ struct FleeValues
 {
 	glm::vec3	target;			// target vector
 	glm::vec3	prevLoc;		// previous location
-	float		distance;		// target distance from player	
+	float		currentDistance;		// target distance from player	
+	float		maxDistance;
 };
 
 
@@ -31,5 +32,8 @@ public:
 private:
 	// agent member variables
 	Agent * m_pTarget;
+
+	void flee(float a_dt, Agent & a_agent);
+	void arrive(float a_dt, Agent & a_agent, glm::vec3 a_target);
 };
 
