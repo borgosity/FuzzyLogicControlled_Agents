@@ -176,6 +176,7 @@
     <ClInclude Include="PursueAction.h" />
     <ClInclude Include="SceneController.h" />
     <ClInclude Include="SeekAction.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="WanderAction.h" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <ClCompile Include="PursueAction.cpp" />
     <ClCompile Include="SceneController.cpp" />
     <ClCompile Include="SeekAction.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WanderAction.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -117,6 +117,9 @@
     <ClInclude Include="ArriveAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Decisions.cpp">
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="ArriveAction.cpp">
       <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -24,12 +24,17 @@ public:
 
 	Agent * targetAgent() { return m_pTarget;};
 	Agent * targetAgent(Agent * a_targetAgent) {
+		m_arrive = false;
 		m_pTarget = a_targetAgent; return m_pTarget;
 	};
+	bool arrivedToggle() { m_arrive = !m_arrive; return m_arrive; };
 	SeekValues controls;
 
 private:
 	// agent member variables
 	Agent * m_pTarget;
+	bool m_arrive;
+	bool m_waiting;
+	void arrive(float a_dt, Agent & a_agent);
 };
 

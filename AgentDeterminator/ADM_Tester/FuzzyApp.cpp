@@ -124,7 +124,8 @@ void FuzzyApp::draw()
 	m_fpsString = "__" + std::to_string(m_fps) + "fps__";
 	// std::cout << m_fpsString << ", " << m_fps << std::endl;
 	m_renderer->drawText(m_font, m_fpsString.c_str(), (float)SCREEN_W - ((m_fpsString.length() * 10) + 20), SCREEN_H - 20);
-	
+	m_renderer->drawText(m_font, m_fpsString.c_str(), HALF_SW, HALF_SH);
+
 	// done drawing sprites
 	m_renderer->end();
 }

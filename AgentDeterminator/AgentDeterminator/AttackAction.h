@@ -24,17 +24,14 @@ public:
 
 	Agent * targetAgent() { return m_pTarget; };
 	Agent * targetAgent(Agent * a_targetAgent) {
-		m_arrived = false;
 		m_pTarget = a_targetAgent; 
 		return m_pTarget;
 	};
-	bool arrivedToggle() { m_arrived = !m_arrived; return m_arrived; };
 	AttackValues controls;
 
 private:
 	// agent member variables
 	Agent * m_pTarget;
-	bool m_arrived;
-	void arrive(float a_dt, Agent & a_agent);
+
 };
 

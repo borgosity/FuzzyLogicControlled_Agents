@@ -81,8 +81,13 @@ public:
 	AgentStats		vitals;
 	MovementInfo	movedata;
 	std::vector<Action*> actions;
+	
+	void clearTarget();
+
 
 protected:
+	// agents
+	Agent * m_pEnemyAgent = nullptr;
 	// gui controls
 	bool m_bShowVitals;
 	bool m_bShowMoveData;
@@ -108,8 +113,7 @@ public:
 	WanderAction * wanderPtr() { return m_wanderAction; };
 	void findEnemy();
 private:
-	// agents
-	Agent * m_pEnemyAgent = nullptr;
+
 	bool m_bShowWanderSets;
 	bool m_bShowEvadeSets;
 	bool m_bShowAttackSets;
