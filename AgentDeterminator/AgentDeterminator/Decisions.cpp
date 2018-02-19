@@ -113,12 +113,15 @@ PlayerBrain::PlayerBrain(PlayerAgent * a_agent)
 {
 	m_pAgent = a_agent;
 	// setup behaviour
-	m_wanderBehaviour = new PlayerWander(0.0f, m_pAgent->movedata.sight, 0.0f, m_pAgent->vitals.health, 0.0f, 100.0f);
-	m_evadeBehaviour = new PlayerEvade(0.0f, m_pAgent->movedata.sight, 0.0f, m_pAgent->vitals.health, 0.0f, 100.0f);
-	m_attackBehaviour = new PlayerAttack(0.0f, m_pAgent->movedata.sight, 0.0f, m_pAgent->vitals.health, 0.0f, 100.0f);
+	m_wanderBehaviour = new PlayerWander(
+		0.0f, m_pAgent->movedata.sight * 2.0f, 
+		m_pAgent->vitals.health * 0.5f, m_pAgent->vitals.health,
+		0.0f, 100.0f);
+	m_evadeBehaviour = new PlayerEvade(m_pAgent->vitals.size, m_pAgent->movedata.sight, 0.0f, m_pAgent->vitals.health, 0.0f, 100.0f);
+	m_attackBehaviour = new PlayerAttack(m_pAgent->vitals.size, m_pAgent->movedata.sight, 0.0f, m_pAgent->vitals.health, 0.0f, 100.0f);
 	// set beahvbiour priorities
-	m_evadeBehaviour->traits.priority = 1;	// self preservation
-	m_attackBehaviour->traits.priority = 2;	// attack if needed
+	m_evadeBehaviour->traits.priority = 2;	// self preservation
+	m_attackBehaviour->traits.priority = 1;	// attack if needed
 	m_wanderBehaviour->traits.priority = 3;	// wander around if all is cool
 	// fill behaviour list
 	behaviours.push_back(m_wanderBehaviour);
@@ -238,7 +241,7 @@ void CompanionBrain::update(float a_dt)
 	m_followBehaviour->update(*m_pAgent);
 	m_evadeBehaviour->update(*m_pAgent);
 	m_attackBehaviour->update(*m_pAgent);
-	// adjust priority weights if enmy out of range
+	// adjust priority weights if enemy out of range
 	if (m_pAgent->vitals.foeDistance > m_pAgent->movedata.sight) {
 		// priority order
 		m_followBehaviour->traits.priority = 1;	// stay with friends

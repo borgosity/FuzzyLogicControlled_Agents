@@ -19,7 +19,7 @@ const float PLAYER_MINDISTANCE = 10.0f;
 const float PLAYER_MAXSPEED = 2.0f;
 const float PLAYER_MAXACCEL = 1.5f;
 const float PLAYER_LIVELYNESS = 3.0f;
-const float PLAYER_SIGHT = 40.0f;
+const float PLAYER_SIGHT = 80.0f;
 
 // companion vitals
 const float BUDDY_HEALTH = 100;
@@ -29,7 +29,7 @@ const float BUDDY_MINDISTANCE = 10.0f;
 // companion movement
 const float BUDDY_MAXSPEED = 2.0f;
 const float BUDDY_MAXACCEL = 4.0f;
-const float BUDDY_SIGHT = 50.0f;
+const float BUDDY_SIGHT = 70.0f;
 
 // enemies
 const int ENEMY_COUNT = 10;
